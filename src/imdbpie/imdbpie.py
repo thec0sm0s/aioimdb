@@ -280,7 +280,13 @@ class Imdb(object):
 
         resp.raise_for_status()
 
-        resp_dict = json.loads(resp.content.decode('utf-8'))
+        content = resp.content.decode('utf-8')
+        try:
+            resp_dict = json.loads(content)
+        except ValueError:
+            raise ValueError(
+                'Could not parse json from response: {}'.format(content)
+            )
 
         if resp_dict.get('error'):
             return None
