@@ -284,9 +284,9 @@ class Imdb(object):
         try:
             resp_dict = json.loads(content)
         except ValueError:
-            raise ValueError(
-                'Could not parse json from response: {}'.format(content)
-            )
+            logger.error('Could not parse json from response: %s', content)
+            time.sleep(3)
+            self._get(url)
 
         if resp_dict.get('error'):
             return None
