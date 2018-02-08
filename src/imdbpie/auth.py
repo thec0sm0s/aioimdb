@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 import base64
 import json
-import requests
+import aiohttp
 import tempfile
 from datetime import datetime
 from base64 import encodebytes
@@ -61,13 +61,15 @@ class ZuluHmacAuthV3HTTPHandler(HmacAuthV3HTTPHandler):
         return string_to_sign, headers_to_sign
 
 
-def _get_credentials():
+async def _get_credentials():
     url = '{0}/authentication/credentials/temporary/ios82'.format(BASE_URI)
-    response = requests.post(
-        url, json={'appKey': APP_KEY}, headers={'User-Agent': USER_AGENT}
-    )
-    response.raise_for_status()
-    return json.loads(response.content.decode('utf8'))['resource']
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url,
+                                json={'appKey': APP_KEY},
+                                headers={'User-Agent': USER_AGENT}) as res:
+            res.raise_for_status()
+            data = await res.json(encoding='utf-8')
+    return data['resource']
 
 
 class Auth(object):
@@ -106,10 +108,10 @@ class Auth(object):
         else:
             return creds, True
 
-    def get_auth_headers(self, url_path):
+    async def get_auth_headers(self, url_path):
         creds, soon_expires = self._creds_soon_expiring()
         if soon_expires:
-            creds = self._set_creds(creds=_get_credentials())
+            creds = self._set_creds(creds=await _get_credentials())
 
         handler = ZuluHmacAuthV3HTTPHandler(
             host=HOST,

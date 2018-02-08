@@ -290,7 +290,7 @@ class Imdb(Auth):
     async def _get(self, url, query=None):
         path = urlparse(url).path
         headers = {'Accept-Language': self.locale}
-        headers.update(self.get_auth_headers(path))
+        headers.update(await self.get_auth_headers(path))
 
         async with self.session.get(url, headers=headers) as resp:
             if not resp.status == HTTPStatus.OK:
