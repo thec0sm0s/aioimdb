@@ -6,16 +6,13 @@ import json
 import requests
 import tempfile
 from datetime import datetime
-try:
-    from base64 import encodebytes
-except ImportError:
-    from base64 import encodestring as encodebytes
+from base64 import encodebytes
 
 import diskcache
 from dateutil.tz import tzutc
 from dateutil.parser import parse
 import boto.utils
-from six.moves.urllib.parse import urlparse, parse_qs, quote
+from urllib.parse import urlparse, parse_qs, quote
 from boto import provider
 from boto.connection import HTTPRequest
 from boto.auth import HmacAuthV3HTTPHandler
