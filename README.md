@@ -15,7 +15,7 @@ Python IMDB client using the IMDB json web service made available for their iOS 
 
 To install imdbpie, simply:
 ```bash
-pip install git+https://github.com/fpierfed/imdb-pie.gitimdbpie
+pip install git+https://github.com/fpierfed/imdb-pie.git
 ```
 
 ## How To Use
