@@ -145,7 +145,7 @@ class Imdb(Auth):
             else:
                 response.raise_for_status()
 
-    def search_for_name(self, name):
+    async def search_for_name(self, name):
         logger.info(f'searching for name {name}')
         name = re.sub(r'\W+', '_', name).strip('_')
         query = quote(name)
@@ -154,7 +154,7 @@ class Imdb(Auth):
             '{0}/suggests/{1}/{2}.json'.format(SEARCH_BASE_URI,
                                                first_alphanum_char, query)
         )
-        search_results = self._get(url=url, query=query)
+        search_results = await self._get(url=url, query=query)
         results = []
         for result in search_results.get('d', ()):
             if not result['id'].startswith('nm'):
@@ -167,7 +167,7 @@ class Imdb(Auth):
             results.append(result_item)
         return results
 
-    def search_for_title(self, title):
+    async def search_for_title(self, title):
         logger.info(f'searching for title {title}')
         title = re.sub(r'\W+', '_', title).strip('_')
         query = quote(title)
@@ -176,7 +176,7 @@ class Imdb(Auth):
             '{0}/suggests/{1}/{2}.json'.format(SEARCH_BASE_URI,
                                                first_alphanum_char, query)
         )
-        search_results = self._get(url=url, query=query)
+        search_results = await self._get(url=url, query=query)
         results = []
         for result in search_results.get('d', ()):
             result_item = {
