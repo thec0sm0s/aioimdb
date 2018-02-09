@@ -9,6 +9,7 @@ import random
 import logging
 import datetime
 import warnings
+from string import Template
 from http import HTTPStatus
 from urllib.parse import urlencode, quote, quote_plus, unquote, urlparse
 import aiohttp
@@ -18,6 +19,30 @@ from .auth import Auth
 from .exceptions import ImdbAPIError
 
 logger = logging.getLogger(__name__)
+
+
+ENDPOINTS = {
+    'name': Template('/name/${imdb_id}/fulldetails'),
+    'name_filmography': Template('/name/${imdb_id}/filmography'),
+    'name_images': Template('/name/${imdb_id}/images'),
+    'name_videos': Template('/name/${imdb_id}/videos'),
+    'title_credits': Template('/title/${imdb_id}/fullcredits'),
+    'title_quotes': Template('/title/${imdb_id}/quotes'),
+    'title_ratings': Template('/title/${imdb_id}/ratings'),
+    'title_genres': Template('/title/${imdb_id}/genres'),
+    'title_similarities': Template('/title/${imdb_id}/similarities'),
+    'title_awards': Template('/title/${imdb_id}/awards'),
+    'title_connections': Template('/title/${imdb_id}/connections'),
+    'title_releases': Template('/title/${imdb_id}/releases'),
+    'title_versions': Template('/title/${imdb_id}/versions'),
+    'title_plot': Template('/title/${imdb_id}/plot'),
+    'title_plot_synopsis': Template('/title/${imdb_id}/plotsynopsis'),
+    'title_images': Template('/title/${imdb_id}/images'),
+    'title_videos': Template('/title/${imdb_id}/videos'),
+    'title_user_reviews': Template('/title/${imdb_id}/userreviews'),
+    'title_metacritic_reviews': Template('/title/${imdb_id}/metacritic'),
+    # '': Template('/title/${imdb_id}'),
+}
 
 
 class Imdb(Auth):
@@ -35,15 +60,26 @@ class Imdb(Auth):
         if self.session is not None:
             await self.session.close()
 
-    async def get_name(self, imdb_id):
-        logger.info(f'getting name {imdb_id}')
-        self.validate_imdb_id(imdb_id)
-        return await self._get_resource(f'/name/{imdb_id}/fulldetails')
+    async def _fetcher(self, name, imdb_id, endpoints=ENDPOINTS):
+        if name not in endpoints:
+            raise NotImplementedError(f'The endpoint {name} is not defined.')
 
-    async def get_name_filmography(self, imdb_id):
-        logger.info(f'getting name {imdb_id} filmography')
+        if name.startswith('title'):
+            await self._redirection_title_check(imdb_id)
+
+        logger.info(f'getting {name} {imdb_id}')
         self.validate_imdb_id(imdb_id)
-        return await self._get_resource(f'/name/{imdb_id}/filmography')
+        url = endpoints[name].substitute(imdb_id=imdb_id)
+        return await self._get_resource(url)
+
+    def __getattr__(self, method_name):
+        if not method_name.startswith('get_'):
+            return super().__getattr__(method_name)
+
+        name = method_name[4:]
+        if name not in ENDPOINTS:
+            return super().__getattr__(method_name)
+        return lambda *args, **kwargs: self._fetcher(name, *args, **kwargs)
 
     async def get_title(self, imdb_id):
         logger.info(f'getting title {imdb_id}')
@@ -63,72 +99,6 @@ class Imdb(Auth):
                 '"exclude_episodes" is set to true'
             )
         return resource
-
-    async def get_title_credits(self, imdb_id):
-        logger.info(f'getting title {imdb_id} credits')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/fullcredits')
-
-    async def get_title_quotes(self, imdb_id):
-        logger.info(f'getting title {imdb_id} quotes')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/quotes')
-
-    async def get_title_ratings(self, imdb_id):
-        logger.info(f'getting title {imdb_id} ratings')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/ratings')
-
-    async def get_title_genres(self, imdb_id):
-        logger.info(f'getting title {imdb_id} genres')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/genres')
-
-    async def get_title_similarities(self, imdb_id):
-        logger.info(f'getting title {imdb_id} similarities')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/similarities')
-
-    async def get_title_awards(self, imdb_id):
-        logger.info(f'getting title {imdb_id} awards')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/awards')
-
-    async def get_title_connections(self, imdb_id):
-        logger.info(f'getting title {imdb_id} connections')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/connections')
-
-    async def get_title_releases(self, imdb_id):
-        logger.info(f'getting title {imdb_id} releases')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/releases')
-
-    async def get_title_versions(self, imdb_id):
-        logger.info(f'getting title {imdb_id} versions')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/versions')
-
-    async def get_title_plot(self, imdb_id):
-        logger.info(f'getting title {imdb_id} plot')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/plot')
-
-    async def get_title_plot_synopsis(self, imdb_id):
-        logger.info(f'getting title {imdb_id} plot synopsis')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/plotsynopsis')
 
     async def title_exists(self, imdb_id):
         self.validate_imdb_id(imdb_id)
@@ -196,40 +166,6 @@ class Imdb(Auth):
 
     async def get_popular_movies(self):
         return await self._get_resource('/chart/moviemeter')
-
-    async def get_title_images(self, imdb_id):
-        logger.info(f'getting title {imdb_id} images')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/images')
-
-    async def get_title_videos(self, imdb_id):
-        logger.info(f'getting title {imdb_id} videos')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/videos')
-
-    async def get_title_user_reviews(self, imdb_id):
-        logger.info(f'getting title {imdb_id} reviews')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/userreviews')
-
-    async def get_title_metacritic_reviews(self, imdb_id):
-        logger.info(f'getting title {imdb_id} metacritic reviews')
-        self.validate_imdb_id(imdb_id)
-        await self._redirection_title_check(imdb_id)
-        return await self._get_resource(f'/title/{imdb_id}/metacritic')
-
-    async def get_name_images(self, imdb_id):
-        logger.info(f'getting namne {imdb_id} images')
-        self.validate_imdb_id(imdb_id)
-        return await self._get_resource(f'/name/{imdb_id}/images')
-
-    async def get_name_videos(self, imdb_id):
-        logger.info(f'getting namne {imdb_id} videos')
-        self.validate_imdb_id(imdb_id)
-        return await self._get_resource(f'/name/{imdb_id}/videos')
 
     async def get_title_episodes(self, imdb_id):
         logger.info(f'getting title {imdb_id} episodes')
