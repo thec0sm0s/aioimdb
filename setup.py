@@ -27,6 +27,8 @@ setup(
     author_email='fpierfed@megabeets.com',
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     long_description='https://github.com/fpierfed/aioimdb',
+    url='https://github.com/fpierfed/aioimdb',
+    download_url='https://github.com/fpierfed/aioimdb/archive/1.0.tar.gz',
     install_requires=install_requires,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
