@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-from .imdbpie import Imdb
+from .aioimdb import Imdb
 from .exceptions import ImdbAPIError

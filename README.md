@@ -1,10 +1,10 @@
 # ImdbPie (Python 3.6 + Asyncio Version)
 
-[![PyPI](https://img.shields.io/pypi/v/imdbpie.svg)](https://pypi.python.org/pypi/imdb-pie)
-[![Python Versions](https://img.shields.io/pypi/pyversions/imdbpie.svg)](https://pypi.python.org/pypi/imdb-pie)
+[![PyPI](https://img.shields.io/pypi/v/aioimdb.svg)](https://pypi.python.org/pypi/imdb-pie)
+[![Python Versions](https://img.shields.io/pypi/pyversions/aioimdb.svg)](https://pypi.python.org/pypi/imdb-pie)
 [![Build Status](https://travis-ci.org/richardasaurus/imdb-pie.png?branch=master)](https://travis-ci.org/richardasaurus/imdb-pie)
 
-Python IMDB client using the IMDB json web service made available for their iOS app.
+Python asyncio IMDB client using the IMDB json web service made available for their iOS app. This version requires Python 3.6 or later. It is based off of the [synchronous version by Richard O'Dwyer](https://github.com/richardasaurus/imdb-pie).
 
 ## API Terminology
 
@@ -13,7 +13,7 @@ Python IMDB client using the IMDB json web service made available for their iOS 
 
 ## Installation
 
-To install imdbpie, simply:
+To install aioimdb, simply:
 ```bash
 pip install git+https://github.com/fpierfed/imdb-pie.git
 ```
@@ -22,7 +22,7 @@ pip install git+https://github.com/fpierfed/imdb-pie.git
 
 ### Initialise the client
 ```python
-from imdbpie import Imdb
+from aioimdb import Imdb
 async with Imdb() as imdb
     ... [your code here]
 ```
@@ -264,7 +264,7 @@ async with Imdb() as imdb:
 
 ```bash
 pip install -r test_requirements.txt
-py.test src/tests
+py.test tests
 ```
 
 

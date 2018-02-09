@@ -5,7 +5,7 @@ from operator import itemgetter
 
 import pytest
 
-from imdbpie import Imdb
+from aioimdb import Imdb
 
 
 @pytest.fixture(scope='function')

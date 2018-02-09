@@ -14,32 +14,27 @@ with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
 setup(
-    name='imdbpie',
-    version='5.2.1.dev0',
-    packages=find_packages('src', exclude=('tests',)),
-    package_dir={'': 'src'},
+    name='aioimdb',
+    version='1.0',
+    packages=['aioimdb', ],
     include_package_data=True,
     zip_safe=False,
     description=(
-        'Python IMDB client using the IMDB json web service made '
+        'Python asyncio IMDB client using the IMDB json web service made '
         'available for their iOS app.'
     ),
-    author='Richard O\'Dwyer',
-    author_email='richard@richard.do',
+    author='Francesco Pierfederici',
+    author_email='fpierfed@megabeets.com',
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
-    long_description='https://github.com/richardasaurus/imdb-pie',
+    long_description='https://github.com/fpierfed/aioimdb',
     install_requires=install_requires,
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
+        'License :: OSI Approved :: Apache Software License',
+        'Framework :: AsyncIO',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP',
     ],

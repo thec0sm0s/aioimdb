@@ -75,7 +75,7 @@ async def _get_credentials():
 class Auth(object):
 
     SOON_EXPIRES_SECONDS = 60
-    _CREDS_STORAGE_KEY = 'imdbpie-credentials'
+    _CREDS_STORAGE_KEY = 'aioimdb-credentials'
 
     def __init__(self, creds=None):
         self._cachedir = tempfile.gettempdir()

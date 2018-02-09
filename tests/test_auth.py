@@ -1,7 +1,7 @@
 import pytest
 from freezegun import freeze_time
 
-from imdbpie.auth import Auth
+from aioimdb.auth import Auth
 
 
 @pytest.fixture
