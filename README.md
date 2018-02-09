@@ -1,8 +1,8 @@
 # ImdbPie (Python 3.6 + Asyncio Version)
 
-[![PyPI](https://img.shields.io/pypi/v/aioimdb.svg)](https://pypi.python.org/pypi/imdb-pie)
-[![Python Versions](https://img.shields.io/pypi/pyversions/aioimdb.svg)](https://pypi.python.org/pypi/imdb-pie)
-[![Build Status](https://travis-ci.org/richardasaurus/imdb-pie.png?branch=master)](https://travis-ci.org/richardasaurus/imdb-pie)
+[![PyPI](https://img.shields.io/pypi/v/aioimdb.svg)](https://pypi.python.org/pypi/aioimdb)
+[![Python Versions](https://img.shields.io/pypi/pyversions/aioimdb.svg)](https://pypi.python.org/pypi/aioimdb)
+[![Build Status](https://travis-ci.org/fpierfed/aioimdb.png?branch=master)](https://travis-ci.org/fpierfed/aioimdb)
 
 Python asyncio IMDB client using the IMDB json web service made available for their iOS app. This version requires Python 3.6 or later. It is based off of the [synchronous version by Richard O'Dwyer](https://github.com/richardasaurus/imdb-pie).
 
@@ -15,7 +15,7 @@ Python asyncio IMDB client using the IMDB json web service made available for th
 
 To install aioimdb, simply:
 ```bash
-pip install git+https://github.com/fpierfed/imdb-pie.git
+pip install git+https://github.com/fpierfed/aioimdb.git
 ```
 
 ## How To Use
