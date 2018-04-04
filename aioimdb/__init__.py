@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from .aioimdb import Imdb
+from .client import Imdb
 from .exceptions import ImdbAPIError
 
 
-__version__ = '1.0.3'
+__version__ = '1.0.4'
