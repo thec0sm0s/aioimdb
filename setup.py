@@ -1,8 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
+import codecs
 import os
-from setuptools import find_packages, setup
-from aioimdb import __version__
+import re
+from setuptools import setup
+
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+
+def read(*parts):
+    with codecs.open(os.path.join(here, *parts), 'r') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError('Unable to find version string.')
 
 
 with open('requirements.txt') as f:
@@ -13,7 +31,7 @@ with open('README.md') as f:
 
 setup(
     name='aioimdb',
-    version=__version__,
+    version=find_version('aioimdb', '__init__.py'),
     packages=['aioimdb', ],
     include_package_data=True,
     zip_safe=False,
