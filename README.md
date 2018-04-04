@@ -1,4 +1,4 @@
-# ImdbPie (Python 3.6 + Asyncio Version)
+# aioimdb (Python 3.6 + Asyncio Version)
 
 [![PyPI](https://img.shields.io/pypi/v/aioimdb.svg)](https://pypi.python.org/pypi/aioimdb)
 [![Python Versions](https://img.shields.io/pypi/pyversions/aioimdb.svg)](https://pypi.python.org/pypi/aioimdb)
