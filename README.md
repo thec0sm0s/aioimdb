@@ -4,7 +4,7 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/aioimdb.svg)](https://pypi.python.org/pypi/aioimdb)
 [![Build Status](https://travis-ci.org/fpierfed/aioimdb.png?branch=master)](https://travis-ci.org/fpierfed/aioimdb)
 
-Python asyncio IMDB client using the IMDB json web service made available for their iOS app. This version requires Python 3.6 or later. It is based off of the [synchronous version by Richard O'Dwyer](https://github.com/richardasaurus/imdb-pie).
+Python asyncio IMDB client using the IMDB json web service made available for their iOS app. This version requires Python 3.6 or later. It is based off of the [synchronous version by Richard O'Dwyer](https://github.com/richardARPANET/imdb-pie).
 
 ## API Terminology
 

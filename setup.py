@@ -13,9 +13,12 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
+with open('README.md') as f:
+    long_description = f.read()
+
 setup(
     name='aioimdb',
-    version='1.0',
+    version='1.0.1',
     packages=['aioimdb', ],
     include_package_data=True,
     zip_safe=False,
@@ -26,10 +29,11 @@ setup(
     author='Francesco Pierfederici',
     author_email='fpierfed@megabeets.com',
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
-    long_description='https://github.com/fpierfed/aioimdb',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/fpierfed/aioimdb',
-    download_url='https://github.com/fpierfed/aioimdb/archive/1.0.tar.gz',
     install_requires=install_requires,
+    python_requires='>=3.6',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
