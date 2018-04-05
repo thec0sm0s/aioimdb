@@ -29,7 +29,7 @@ Example:
 ```python
 from aioimdb import Imdb
 async with Imdb() as imdb
-    result = await get_title('tt0111161')
+    result = await imdb.get_title('tt0111161')
 ```
 
 
