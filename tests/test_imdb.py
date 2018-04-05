@@ -1,10 +1,7 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-
 from operator import itemgetter
-
 import pytest
-
 from aioimdb import Imdb
 
 
@@ -83,13 +80,13 @@ async def test_search_for_title_searching_title(client):
         {
             'imdb_id': 'tt0111161',
             'title': 'The Shawshank Redemption',
-            'year': '1994',
+            'year': 1994,
             'type': 'feature',
         },
         {
             'imdb_id': 'tt5443386',
             'title': 'The Shawshank Redemption: Behind the Scenes',
-            'year': '2004',
+            'year': 2004,
             'type': 'video',
         },
     ]
@@ -344,6 +341,58 @@ async def test_get_title_episodes_raises_imdb_id_is_not_that_of_a_tv_show(
     non_show_imdb_id = 'tt0468569'
     with pytest.raises(LookupError):
         await client.get_title_episodes(non_show_imdb_id)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    'params, exp_num_episodes, exp_episodes_total, exp_seasons',
+    [
+        # firefly
+        (
+            dict(imdb_id='tt0303461', offset=0, limit=500, season=1),
+            14,
+            14,
+            [1],
+        ),
+        # Breaking bad
+        (
+            dict(imdb_id='tt0903747', offset=1, limit=6, season=4),
+            5,
+            13,
+            [1, 2, 3, 4, 5],
+        ),
+        # Detective conan
+        (
+            dict(imdb_id='tt0131179', offset=0, limit=500, season=46),
+            4,
+            4,
+            list(range(1, 47)),
+        ),
+    ]
+)
+async def test_get_title_episodes_detailed(
+    params, client, exp_num_episodes, exp_episodes_total, exp_seasons
+):
+    expected_keys = [
+        'allSeasons', 'end', 'episodes', 'region', 'season', 'seriesTitle',
+        'start', 'totalEpisodes'
+    ]
+    resource = await client.get_title_episodes_detailed(**params)
+
+    assert sorted(resource.keys()) == sorted(expected_keys)
+    assert len(resource['episodes']) == exp_num_episodes
+    assert resource['totalEpisodes'] == exp_episodes_total
+    assert resource['allSeasons'] == exp_seasons
+
+
+@pytest.mark.asyncio
+async def test_get_title_top_crew(client):
+    tv_show_imdb_id = 'tt0303461'
+    expected_keys = ['directors', 'writers']
+
+    resource = await client.get_title_top_crew(tv_show_imdb_id)
+
+    assert sorted(resource.keys()) == sorted(expected_keys)
 
 
 @pytest.mark.asyncio
