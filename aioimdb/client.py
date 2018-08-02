@@ -98,7 +98,7 @@ class Imdb(Auth):
 
     async def title_exists(self, imdb_id):
         self.validate_imdb_id(imdb_id)
-        page_url = f'http://www.imdb.com/title/{imdb_id}/'
+        page_url = f'https://www.imdb.com/title/{imdb_id}/'
 
         async with self.session.head(page_url) as response:
             if response.status == HTTPStatus.OK:
@@ -283,7 +283,7 @@ class Imdb(Auth):
 
     async def is_redirection_title(self, imdb_id):
         self.validate_imdb_id(imdb_id)
-        page_url = f'http://www.imdb.com/title/{imdb_id}/'
+        page_url = f'https://www.imdb.com/title/{imdb_id}/'
         async with self.session.head(page_url) as response:
             if response.status == HTTPStatus.MOVED_PERMANENTLY:
                 return True
