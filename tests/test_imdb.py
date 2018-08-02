@@ -84,11 +84,17 @@ async def test_search_for_title_searching_title(client):
             'type': 'feature',
         },
         {
-            'imdb_id': 'tt5443386',
-            'title': 'The Shawshank Redemption: Behind the Scenes',
+            'imdb_id': 'tt5443390',
+            'title': 'The Shawshank Redemption: Cast Interviews',
             'year': 2004,
             'type': 'video',
         },
+        # {
+        #     'imdb_id': 'tt5443386',
+        #     'title': 'The Shawshank Redemption: Behind the Scenes',
+        #     'year': 2004,
+        #     'type': 'video',
+        # },
     ]
     assert len(results) > 0
     assert expected_top_results == results[:2]
@@ -364,8 +370,8 @@ async def test_get_title_episodes_raises_imdb_id_is_not_that_of_a_tv_show(
         # Detective conan
         (
             dict(imdb_id='tt0131179', offset=0, limit=500, season=46),
-            4,
-            4,
+            14,
+            14,
             list(range(1, 47)),
         ),
     ]
